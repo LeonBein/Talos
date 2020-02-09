@@ -5,7 +5,7 @@ import org.camunda.bpm.engine.delegate.Expression;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
 import de.hpi.bpt.talos.UiPathBridge;
-import de.hpi.bpt.talos.UiPathBridge.ProcessInputs;
+import de.hpi.bpt.talos.TalosCore.ProcessInputs;
 
 public class RPADelegate implements JavaDelegate {
 

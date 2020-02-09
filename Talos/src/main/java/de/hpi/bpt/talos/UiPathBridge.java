@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -20,7 +22,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
-public class UiPathBridge {
+import de.hpi.bpt.talos.TalosCore.ProcessInputs;
+import de.hpi.bpt.talos.TalosCore.ProcessOutputs;
+
+public class UiPathBridge implements RPAAdapter{
 
 	private static final Map<String, String> uiPathConfig = getUiPathConfig();
 	
@@ -33,10 +38,11 @@ public class UiPathBridge {
 	private String clientId;
 	private String userKey;
 	
-//	public static void main(String[] args) {
-//		UiPathBridge bridge = new UiPathBridge();
-//		bridge.startProcess("ServusSayer");
-//	}
+	public static void main(String[] args) {
+		UiPathBridge bridge = new UiPathBridge();
+		bridge.startProcess("DisplayMessage", new ProcessInputs());
+		
+	}
 	
 	public UiPathBridge() {
 		this.accountName = uiPathConfig.get("accountName");
@@ -103,7 +109,7 @@ public class UiPathBridge {
 		}
 	}
 	
-	public void startProcess(String name, ProcessInputs processInputs) {
+	public ProcessOutputs startProcess(String name, ProcessInputs processInputs) {
 		getAuthToken();
 		System.out.print("Starting process "+name+" ... ");
 		List<String> releases = new ArrayList<>();
@@ -151,6 +157,15 @@ public class UiPathBridge {
 			}
 			System.out.println("OK");
 			System.out.print("Finished execution of process "+name);
+			
+			ProcessOutputs processOutputs = new ProcessOutputs();
+			processOutputs.data = new JsonParser()
+					.parse(getJob(jobId).get("OutputArguments").getAsString())
+					.getAsJsonObject()
+					.entrySet()
+					.stream()
+					.collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getAsString()));
+			return processOutputs;
 			//System.out.println(responseBody);
 		} else {
 			throw new RuntimeException("No releases found for process \""+name+"\"");
@@ -175,6 +190,10 @@ public class UiPathBridge {
 	}
 
 	private String getJobStatus(String jobId) {
+		return getJob(jobId).get("State").getAsString();
+	}
+	
+	private JsonObject getJob(String jobId) {
 		HttpRequest request = HttpRequest.newBuilder()
 				.GET()
 				.uri(URI.create(getOrchestratorURL()+"/odata/Jobs?$filter=Key%20eq%20"+jobId))
@@ -192,14 +211,7 @@ public class UiPathBridge {
 		}
 		JsonArray results = new JsonParser().parse(response.body()).getAsJsonObject().get("value").getAsJsonArray();
 		assert results.size() == 1;
-		return results.get(0).getAsJsonObject().get("State").getAsString();
-	}
-	
-	public static class ProcessInputs {
-		public Map<String, Object> data;
-		public ProcessInputs() {
-			this.data = new HashMap<>();
-		}
+		return results.get(0).getAsJsonObject();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -208,9 +220,10 @@ public class UiPathBridge {
 			Gson gson = new Gson();
 			Map<String, String> dummy = new HashMap<>();
 			return (Map<String, String>) gson.fromJson(reader, dummy.getClass());
-		} catch (JsonIOException | JsonSyntaxException | IOException e) {
-			e.printStackTrace();
-			throw new ClassFormatError("No config for uipath found");
+		} catch(JsonIOException | JsonSyntaxException e) {
+			throw new RuntimeException("Config for uipath not valid", e);
+		} catch (IOException e) {
+			throw new RuntimeException("No config for uipath found", e);
 		}
 	}
 

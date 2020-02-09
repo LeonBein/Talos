@@ -6,7 +6,8 @@ import org.camunda.bpm.client.ExternalTaskClient;
 
 import com.google.gson.JsonObject;
 
-import de.hpi.bpt.talos.UiPathBridge.ProcessInputs;
+import de.hpi.bpt.talos.TalosCore.ProcessInputs;
+
 
 public class CamundaTaskWorker {
 	  private final static Logger LOGGER = Logger.getLogger(CamundaTaskWorker.class.getName());
