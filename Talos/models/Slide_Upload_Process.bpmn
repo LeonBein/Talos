@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.5.0">
-  <bpmn:process id="Slide_Upload_Process" name="Slide Upload Process" isExecutable="true" camunda:versionTag="3.0.3">
+  <bpmn:process id="Slide_Upload_Process" name="Slide Upload Process" isExecutable="true" camunda:versionTag="4.0.1">
     <bpmn:startEvent id="StartEvent_1" name="Slides need to be uploaded">
       <bpmn:outgoing>SequenceFlow_1aoo482</bpmn:outgoing>
     </bpmn:startEvent>
@@ -12,7 +12,7 @@
     <bpmn:serviceTask id="Task_1htl1z6" name="Extract Slides" camunda:class="de.hpi.bpt.talosCamunda.RPADelegate">
       <bpmn:extensionElements>
         <camunda:field name="processName">
-          <camunda:string>DisplayMessage</camunda:string>
+          <camunda:string>ChapterExtractorSimplified</camunda:string>
         </camunda:field>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0dl6q2g</bpmn:incoming>
@@ -25,6 +25,7 @@
           <camunda:formField id="fileName" label="File:" type="string" />
           <camunda:formField id="slideRangeStart" label="First Slide:" type="long" />
           <camunda:formField id="slideRangeEnd" label="Last Slide:" type="long" />
+          <camunda:formField id="chapterNumber" label="Chapter number:" type="long" defaultValue="1" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1aoo482</bpmn:incoming>
@@ -35,7 +36,8 @@
       <bpmn:incoming>SequenceFlow_08fbmz1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1uvipc3</bpmn:outgoing>
       <bpmn:script>println "Script called"
-println output</bpmn:script>
+def command = ("cmd /c \"D:\\Users\\Leon Bein\\Documents\\HPI\\V_ML_in_BPM\\uploadToRepo.bat\" "+outputFile.toString()+".pdf").execute()
+command.waitForProcessOutput(System.out, System.err);</bpmn:script>
     </bpmn:scriptTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
