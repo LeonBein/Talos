@@ -40,7 +40,7 @@ public class CamundaTaskWorker {
 				System.out.println(externalTask.getAllVariables());
 				System.out.println(externalTask.getProcessDefinitionId());
 				
-				bridge.startProcess("DisplayMessage", processInputs);
+				bridge.runProcess("DisplayMessage", processInputs);
 					
 				// Complete the task
 				externalTaskService.complete(externalTask);

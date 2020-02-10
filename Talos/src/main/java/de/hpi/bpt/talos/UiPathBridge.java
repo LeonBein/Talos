@@ -25,7 +25,7 @@ import com.google.gson.JsonSyntaxException;
 import de.hpi.bpt.talos.TalosCore.ProcessInputs;
 import de.hpi.bpt.talos.TalosCore.ProcessOutputs;
 
-public class UiPathBridge implements RPAAdapter{
+public class UiPathBridge implements RPAAdapter<String>{
 
 	private static final Map<String, String> uiPathConfig = getUiPathConfig();
 	
@@ -40,7 +40,7 @@ public class UiPathBridge implements RPAAdapter{
 	
 	public static void main(String[] args) {
 		UiPathBridge bridge = new UiPathBridge();
-		bridge.startProcess("DisplayMessage", new ProcessInputs());
+		bridge.runProcess("DisplayMessage", new ProcessInputs());
 		
 	}
 	
@@ -109,7 +109,8 @@ public class UiPathBridge implements RPAAdapter{
 		}
 	}
 	
-	public ProcessOutputs startProcess(String name, ProcessInputs processInputs) {
+	@Override
+	public String startProcess(String name, ProcessInputs processInputs) {
 		getAuthToken();
 		System.out.print("Starting process "+name+" ... ");
 		List<String> releases = new ArrayList<>();
@@ -149,30 +150,14 @@ public class UiPathBridge implements RPAAdapter{
 			String status = responseBody.get("State").getAsString();
 			assert status.equals("Pending");
 			System.out.println("OK");
-			System.out.print("Waiting for process "+name+" to finish ... ");
-			try {
-				waitForTermination(jobId, 30 * 60 * 1000);
-			} catch (InterruptedException e) {
-				throw new RuntimeException("Execution of process "+name+" was interrupted unexpectedly: ", e);
-			}
-			System.out.println("OK");
-			System.out.print("Finished execution of process "+name);
-			
-			ProcessOutputs processOutputs = new ProcessOutputs();
-			processOutputs.data = new JsonParser()
-					.parse(getJob(jobId).get("OutputArguments").getAsString())
-					.getAsJsonObject()
-					.entrySet()
-					.stream()
-					.collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getAsString()));
-			return processOutputs;
-			//System.out.println(responseBody);
+			return jobId;
 		} else {
 			throw new RuntimeException("No releases found for process \""+name+"\"");
 		}
 	}
 	
-	private void waitForTermination(String jobId, long timeout) throws InterruptedException {
+	@Override
+	public void waitForTermination(String jobId, long timeout) throws InterruptedException {
 		for(long waitingTime = 1000; timeout > 0; timeout -= waitingTime) {
 			String status = getJobStatus(jobId);
 			//System.out.println(status);
@@ -187,6 +172,18 @@ public class UiPathBridge implements RPAAdapter{
 			waitingTime *= 1.5;
 			if(waitingTime > timeout/10)waitingTime = timeout/10;
 		}
+	}
+	
+	@Override
+	public ProcessOutputs retrieveOutput(String jobId) {
+		ProcessOutputs processOutputs = new ProcessOutputs();
+		processOutputs.data = new JsonParser()
+				.parse(getJob(jobId).get("OutputArguments").getAsString())
+				.getAsJsonObject()
+				.entrySet()
+				.stream()
+				.collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getAsString()));
+		return processOutputs;
 	}
 
 	private String getJobStatus(String jobId) {

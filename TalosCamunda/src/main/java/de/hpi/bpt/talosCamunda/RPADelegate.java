@@ -20,7 +20,7 @@ public class RPADelegate implements JavaDelegate {
 
 		ProcessInputs processInputs = new ProcessInputs();
 		processInputs.data.putAll(execution.getVariables());
-		bridge.startProcess("DisplayMessage", processInputs);
+		bridge.runProcess("DisplayMessage", processInputs);
 	}
 
 }
