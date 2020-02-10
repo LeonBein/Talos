@@ -6,6 +6,7 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 
 import de.hpi.bpt.talos.UiPathBridge;
 import de.hpi.bpt.talos.TalosCore.ProcessInputs;
+import de.hpi.bpt.talos.TalosCore.ProcessOutputs;
 
 public class RPADelegate implements JavaDelegate {
 
@@ -20,7 +21,9 @@ public class RPADelegate implements JavaDelegate {
 
 		ProcessInputs processInputs = new ProcessInputs();
 		processInputs.data.putAll(execution.getVariables());
-		bridge.runProcess("DisplayMessage", processInputs);
+		
+		ProcessOutputs processOutputs = bridge.runProcess("DisplayMessage", processInputs);
+		processOutputs.data.forEach(execution::setVariable);
 	}
 
 }

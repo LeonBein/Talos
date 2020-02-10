@@ -1,5 +1,6 @@
 package de.hpi.bpt.talos;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -213,7 +214,9 @@ public class UiPathBridge implements RPAAdapter<String>{
 	
 	@SuppressWarnings("unchecked")
 	private  static Map<String, String> getUiPathConfig() {
-		try(Reader reader = new FileReader(".uipathConfig")) {
+		File configFile = new File(".uipathConfig");
+		System.out.println("UiPath config file path: "+configFile.getAbsolutePath());
+		try(Reader reader = new FileReader(configFile)) {
 			Gson gson = new Gson();
 			Map<String, String> dummy = new HashMap<>();
 			return (Map<String, String>) gson.fromJson(reader, dummy.getClass());
