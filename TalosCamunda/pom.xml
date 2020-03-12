@@ -218,4 +218,12 @@
       </plugin>
     </plugins>
   </build>
+  
+   	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>Talos packages</name>
+			<url>https://maven.pkg.github.com/LeonBein/Talos</url>
+		</repository>
+	</distributionManagement>
 </project>
