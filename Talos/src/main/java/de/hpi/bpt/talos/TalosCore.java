@@ -2,9 +2,13 @@ package de.hpi.bpt.talos;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class TalosCore {
 	
+	public static final long defaultTimeout = TimeUnit.MINUTES.toMillis(30);
+	
+	private RPAAdapter<?> rpaAdapter;
 	
 	public static class ProcessInputs {
 		public Map<String, Object> data;
@@ -13,12 +17,38 @@ public class TalosCore {
 		}
 	}
 	
-	
 	public static class ProcessOutputs {
 		public Map<String, Object> data;
 		public ProcessOutputs() {
 			this.data = new HashMap<>();
 		}
 	}
+	
+	public static TalosCore create() {
+		return new TalosCore(new UiPathBridge());
+	}
+	
+	
+	private TalosCore(RPAAdapter<?> adapter) {
+		this.rpaAdapter = adapter;
+	}
 
+	public ProcessOutputs runProcess(String name, ProcessInputs processInputs) {
+		return runProcess(name, processInputs, this.rpaAdapter);
+	}
+	
+	private <ProcessIdentifier> ProcessOutputs runProcess(String name, ProcessInputs processInputs, RPAAdapter<ProcessIdentifier> rpaAdapter) {
+		ProcessIdentifier jobId = rpaAdapter.startProcess(name, processInputs);
+		System.out.print("Waiting for process "+name+" to finish ... ");
+		try {
+			rpaAdapter.waitForTermination(jobId, defaultTimeout);
+		} catch (InterruptedException e) {
+			throw new RuntimeException("Execution of process "+name+" was interrupted unexpectedly: ", e);
+		}
+		System.out.println("OK");
+		System.out.print("Finished execution of process "+name);
+		
+		return rpaAdapter.retrieveOutput(jobId);
+	}
+	
 }

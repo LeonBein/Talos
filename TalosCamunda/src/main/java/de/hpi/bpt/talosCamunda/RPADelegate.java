@@ -4,25 +4,26 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.Expression;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
-import de.hpi.bpt.talos.UiPathBridge;
+import de.hpi.bpt.talos.TalosCore;
 import de.hpi.bpt.talos.TalosCore.ProcessInputs;
 import de.hpi.bpt.talos.TalosCore.ProcessOutputs;
 
 public class RPADelegate implements JavaDelegate {
 
-	UiPathBridge bridge = new UiPathBridge();
+	TalosCore talos = TalosCore.create();
 	
 	Expression processName;
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 		
-		System.out.println(processName.getValue(execution));
+		String processToExecute = processName.getValue(execution).toString();
+		System.out.println("Starting RPA process \""+processToExecute+"\"");
 
 		ProcessInputs processInputs = new ProcessInputs();
 		processInputs.data.putAll(execution.getVariables());
 		
-		ProcessOutputs processOutputs = bridge.runProcess(processName.getValue(execution).toString(), processInputs);
+		ProcessOutputs processOutputs = talos.runProcess(processToExecute, processInputs);
 		processOutputs.data.forEach(execution::setVariable);
 	}
 

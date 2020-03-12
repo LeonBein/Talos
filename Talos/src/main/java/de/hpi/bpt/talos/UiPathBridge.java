@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
@@ -39,11 +38,6 @@ public class UiPathBridge implements RPAAdapter<String>{
 	private String clientId;
 	private String userKey;
 	
-	public static void main(String[] args) {
-		UiPathBridge bridge = new UiPathBridge();
-		bridge.runProcess("DisplayMessage", new ProcessInputs());
-		
-	}
 	
 	public UiPathBridge() {
 		this.accountName = uiPathConfig.get("accountName");
