@@ -28,10 +28,18 @@ jobs:
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
-    - name: Build with Maven
-      run: mvn -B package --file ./Talos/pom.xml && cd ./Talos && ls && echo $PWD
+    - name: Build Talos Core Package
+      run: mvn -B package --file ./Talos/pom.xml
 
-    - name: Publish to GitHub Packages Apache Maven
+    - name: Publish Talos Core Package
       run: cd ./Talos && mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+
+    - name: Build prepackaged Talos-Camunda distribution
+      run: mvn -B package --file ./TalosCamunda/pom.xml
+      
+    - name: Publish prepackaged Talos-Camunda distribution
+      run: cd ./TalosCamunda && mvn deploy -s $GITHUB_WORKSPACE/settings.xml
       env:
         GITHUB_TOKEN: ${{ github.token }}
