@@ -8,7 +8,7 @@ public class TalosCore {
 	
 	public static final long defaultTimeout = TimeUnit.MINUTES.toMillis(30);
 	
-	private RPAAdapter<?> rpaAdapter;
+	private RPASAdapter<?> rpaAdapter;
 	
 	public static class ProcessInputs {
 		public Map<String, Object> data;
@@ -25,11 +25,11 @@ public class TalosCore {
 	}
 	
 	public static TalosCore create() {
-		return new TalosCore(new UiPathBridge());
+		return new TalosCore(new UiPathAdapter());
 	}
 	
 	
-	private TalosCore(RPAAdapter<?> adapter) {
+	private TalosCore(RPASAdapter<?> adapter) {
 		this.rpaAdapter = adapter;
 	}
 
@@ -37,7 +37,7 @@ public class TalosCore {
 		return runProcess(name, processInputs, this.rpaAdapter);
 	}
 	
-	private <ProcessIdentifier> ProcessOutputs runProcess(String name, ProcessInputs processInputs, RPAAdapter<ProcessIdentifier> rpaAdapter) {
+	private <ProcessIdentifier> ProcessOutputs runProcess(String name, ProcessInputs processInputs, RPASAdapter<ProcessIdentifier> rpaAdapter) {
 		ProcessIdentifier jobId = rpaAdapter.startProcess(name, processInputs);
 		System.out.print("Waiting for process "+name+" to finish ... ");
 		try {

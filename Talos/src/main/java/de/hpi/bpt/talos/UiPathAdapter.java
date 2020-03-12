@@ -25,7 +25,7 @@ import com.google.gson.JsonSyntaxException;
 import de.hpi.bpt.talos.TalosCore.ProcessInputs;
 import de.hpi.bpt.talos.TalosCore.ProcessOutputs;
 
-public class UiPathBridge implements RPAAdapter<String>{
+public class UiPathAdapter implements RPASAdapter<String>{
 
 	private static final Map<String, String> uiPathConfig = getUiPathConfig();
 	
@@ -39,7 +39,7 @@ public class UiPathBridge implements RPAAdapter<String>{
 	private String userKey;
 	
 	
-	public UiPathBridge() {
+	public UiPathAdapter() {
 		this.accountName = uiPathConfig.get("accountName");
 		this.tenantName = uiPathConfig.get("tenantName");
 		this.clientId = uiPathConfig.get("clientId");

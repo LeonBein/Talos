@@ -3,7 +3,7 @@ package de.hpi.bpt.talos;
 import de.hpi.bpt.talos.TalosCore.ProcessInputs;
 import de.hpi.bpt.talos.TalosCore.ProcessOutputs;
 
-public interface RPAAdapter<ProcessIdentifier> {
+public interface RPASAdapter<ProcessIdentifier> {
 	
 	public ProcessIdentifier startProcess(String name, ProcessInputs processInputs);
 
