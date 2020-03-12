@@ -3,17 +3,7 @@
   <groupId>de.hpi.bpt</groupId>
   <artifactId>Talos</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <dependencies>
-  	<dependency>
-  		<groupId>org.camunda.bpm</groupId>
-  		<artifactId>camunda-engine</artifactId>
-  		<version>7.12.0</version>
-  	</dependency>		
-  	<dependency>
-		<groupId>org.camunda.bpm</groupId>
-		<artifactId>camunda-external-task-client</artifactId>
-		<version>1.3.0</version>
-	</dependency>
+  <dependencies>		
 	<dependency>
 		<groupId>org.slf4j</groupId>
 		<artifactId>slf4j-simple</artifactId>
@@ -42,4 +32,11 @@
 		</plugin>
   	</plugins>
   </build>
+  	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>Talos packages</name>
+			<url>https://maven.pkg.github.com/LeonBein/Talos</url>
+		</repository>
+	</distributionManagement>
 </project>
