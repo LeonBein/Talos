@@ -1,0 +1,2 @@
+language: java
+script: "mvn clean install -f ./Talos/pom.xml && mvn clean install -f ./TalosCamunda/pom.xml"
