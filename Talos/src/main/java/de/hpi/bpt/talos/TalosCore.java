@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import de.hpi.bpt.talos.uiPathAdapter.UiPathAdapter;
+
 public class TalosCore {
 	
 	public static final long defaultTimeout = TimeUnit.MINUTES.toMillis(30);

@@ -1,4 +1,4 @@
-package de.hpi.bpt.talos;
+package de.hpi.bpt.talos.uiPathAdapter;
 
 import java.io.File;
 import java.io.FileReader;
@@ -22,6 +22,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
+import de.hpi.bpt.talos.RPASAdapter;
 import de.hpi.bpt.talos.TalosCore.ProcessInputs;
 import de.hpi.bpt.talos.TalosCore.ProcessOutputs;
 
