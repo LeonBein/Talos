@@ -1,5 +1,5 @@
 # Talos - a BPMS-to-RPAS bridge system
-Talos is a tool that acts as bridge between robotic process automation systmes and business process management systems. It allows BPM systems to use RPA systems as delegates for the execution of certain tasks.
+Talos is a tool that acts as bridge between robotic process automation systems and business process management systems. It allows BPM systems to use RPA systems as delegates for the execution of certain tasks.
 
 ### Usage
 Talos is available as maven depencency (see [packages](https://github.com/LeonBein/Talos/packages)). It provides [`TalosCore`](Talos/src/main/java/de/hpi/bpt/talos/TalosCore.java) as main class. This core class provides the `runProcess` method that can be called from an adapter on BPMS side to execute an RPA process. The core then directs the execution of this process via an adapter that conforms the [`RPASAdapter`](Talos/src/main/java/de/hpi/bpt/talos/RPAAdapter.java) interface.
