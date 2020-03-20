@@ -24,5 +24,10 @@ class TalosCoreTests {
 	void greenLightTest() {
 		assertTrue(true);
 	}
+	
+	@Test
+	void mockAvailableTest() {
+		RPASAdapterLoader.get("MockAdapter");
+	}
 
 }

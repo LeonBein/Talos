@@ -14,6 +14,7 @@ import de.hpi.bpt.talos.RPASAdapter.ProviderName;
 public class RPASAdapterLoader {
 	
 	public static void main(String[] args) {
+		System.out.println(getAll());
 		//assertNoDuplicates();
 		System.out.println(get("TalosTesting").type());
 		System.out.println(get("tAlOsTeStInG").type());
@@ -23,6 +24,10 @@ public class RPASAdapterLoader {
 	
 	public static Provider<RPASAdapter> get(String name) {
 		return new RPASAdapterLoader().find(name);
+	}
+	
+	public static Stream<Provider<RPASAdapter>> getAll() {
+		return new RPASAdapterLoader().services();
 	}
 	
 	public Provider<RPASAdapter> find(String name) {

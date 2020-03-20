@@ -1,5 +1,6 @@
 package de.hpi.bpt.talos;
 
+import de.hpi.bpt.talos.RPASAdapter;
 import de.hpi.bpt.talos.RPASAdapter.ProviderName;
 import de.hpi.bpt.talos.TalosCore.ProcessInputs;
 import de.hpi.bpt.talos.TalosCore.ProcessOutputs;
