@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import de.hpi.bpt.talos.uiPathAdapter.UiPathAdapter;
+import de.hpi.bpt.talosUiPath.UiPathAdapter;
 
 public class TalosCore {
 	

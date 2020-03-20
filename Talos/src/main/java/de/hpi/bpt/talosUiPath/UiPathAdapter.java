@@ -1,4 +1,4 @@
-package de.hpi.bpt.talos.uiPathAdapter;
+package de.hpi.bpt.talosUiPath;
 
 import java.io.File;
 import java.io.FileReader;
@@ -23,9 +23,11 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
 import de.hpi.bpt.talos.RPASAdapter;
+import de.hpi.bpt.talos.RPASAdapter.ProviderName;
 import de.hpi.bpt.talos.TalosCore.ProcessInputs;
 import de.hpi.bpt.talos.TalosCore.ProcessOutputs;
 
+@ProviderName("UiPath")
 public class UiPathAdapter implements RPASAdapter<String>{
 
 	private static final Map<String, String> uiPathConfig = getUiPathConfig();
