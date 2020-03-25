@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import de.hpi.bpt.talosUiPath.UiPathAdapter;
-
 public class TalosCore {
 	
 	public static final long defaultTimeout = TimeUnit.MINUTES.toMillis(30);
@@ -27,7 +25,7 @@ public class TalosCore {
 	}
 	
 	public static TalosCore create() {
-		return new TalosCore(new UiPathAdapter());
+		return new TalosCore(RPASAdapterLoader.getAll().findAny().get().get());
 	}
 	
 	

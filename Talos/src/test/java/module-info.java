@@ -6,10 +6,7 @@ open module de.hpi.bpt.talos {
 	uses RPASAdapter;
 	provides RPASAdapter
 		with MockAdapter;
-
-	requires java.net.http;
-	requires gson;
-	requires java.sql;
+	
 	requires org.junit.jupiter.api;
 }
 
