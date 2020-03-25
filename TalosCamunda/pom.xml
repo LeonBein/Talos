@@ -4,7 +4,7 @@
 
   <groupId>de.hpi.bpt</groupId>
   <artifactId>talosCamunda</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0</version>
 
   <packaging>war</packaging>
 
@@ -142,7 +142,7 @@
     <dependency>
     	<groupId>de.hpi.bpt</groupId>
     	<artifactId>Talos</artifactId>
-    	<version>[0.0.1-SNAPSHOT,)</version>
+    	<version>[1.0.0,)</version>
     </dependency>
    	<dependency>
 		<groupId>de.hpi.bpt.talos</groupId>

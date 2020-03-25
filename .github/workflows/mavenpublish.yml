@@ -36,6 +36,14 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
+    - name: Build Talos UiPath Package
+      run: mvn -B package --file ./TalosUiPath/pom.xml
+
+    - name: Publish Talos Core Package
+      run: cd ./TalosUiPath && mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+
     - name: Build prepackaged Talos-Camunda distribution
       run: mvn -B package --file ./TalosCamunda/pom.xml
       
