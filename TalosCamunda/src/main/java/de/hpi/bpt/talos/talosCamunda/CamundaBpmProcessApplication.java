@@ -1,4 +1,4 @@
-package de.hpi.bpt.talosCamunda;
+package de.hpi.bpt.talos.talosCamunda;
 
 import org.camunda.bpm.application.PostDeploy;
 import org.camunda.bpm.application.ProcessApplication;
