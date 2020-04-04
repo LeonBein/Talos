@@ -28,7 +28,7 @@ import de.hpi.bpt.talos.TalosCore.ProcessInputs;
 import de.hpi.bpt.talos.TalosCore.ProcessOutputs;
 
 @ProviderName("UiPath")
-public class UiPathAdapter implements RPASAdapter<String>{
+public class UiPathAdapter implements RPASAdapter<String> {
 
 	private static final Map<String, String> uiPathConfig = getUiPathConfig();
 	
